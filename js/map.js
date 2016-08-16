@@ -5,4 +5,19 @@ function initMap(){
           zoom: 13
         });
   // console.log('hi');
+
+  var tribeca = {lat: 40.087095, lng: -88.247949};
+  var marker = new google.maps.Marker({
+    position: tribeca,
+    map: map,
+    title: 'Le Peep, My favorite brunch restaurant!'
+  });
+
+  var infowindow = new google.maps.InfoWindow({
+    content: 'Hahahaha'
+  });
+
+  marker.addListener('click', function(){
+    infowindow.open(map, marker);
+  });
 }
