@@ -1,4 +1,5 @@
 var map;
+var largeInfowindow;
 var markers = [];
 
 var locations = [
@@ -17,35 +18,41 @@ function initMap(){
           zoom: 13
         });
 
-  var largeInfowindow = new google.maps.InfoWindow();
+  largeInfowindow = new google.maps.InfoWindow();
+// ******************* Relocation Below ******************
+//   var largeInfowindow = new google.maps.InfoWindow();
+//
+// for(var i = 0; i < locations.length; i++) {
+//     var position = locations[i].location;
+//     var title = locations[i].title;
+//
+//     var marker = new google.maps.Marker({
+//       position: position,
+//       map: map,
+//       title: title,
+//       animation: google.maps.Animation.DROP,
+//       id: i
+//     });
+//     markers.push(marker);
+//     marker.addListener('click', function(){
+//       populateInfoWindow(this, largeInfowindow);
+//     });
+//   }
+//
+//   function populateInfoWindow(marker, infowindow) {
+//     if (infowindow.marker != marker) {
+//       infowindow.marker = marker;
+//       infowindow.setContent('<div>' + marker.title + '</div>');
+//       infowindow.open(map, marker);
+//       infowindow.addListener('closeclick',function(){
+//         infowindow.setMarker(null);
+//       });
+//     }
+//   }
 
-for(var i = 0; i < locations.length; i++) {
-    var position = locations[i].location;
-    var title = locations[i].title;
+// ******************* Relocation Above ******************
 
-    var marker = new google.maps.Marker({
-      position: position,
-      map: map,
-      title: title,
-      animation: google.maps.Animation.DROP,
-      id: i
-    });
-    markers.push(marker);
-    marker.addListener('click', function(){
-      populateInfoWindow(this, largeInfowindow);
-    });
-  }
-
-  function populateInfoWindow(marker, infowindow) {
-    if (infowindow.marker != marker) {
-      infowindow.marker = marker;
-      infowindow.setContent('<div>' + marker.title + '</div>');
-      infowindow.open(map, marker);
-      infowindow.addListener('closeclick',function(){
-        infowindow.setMarker(null);
-      });
-    }
-  }
+  ko.applyBindings(new ViewModel());
 }
 
 // ******************* View Model Below ******************
@@ -53,19 +60,62 @@ for(var i = 0; i < locations.length; i++) {
 var ViewModel = function(){
     this.filter= ko.observable("");
 
+    this.locations = ko.observableArray(locations);
+
     this.filteredItems = ko.computed(function() {
         var filter = this.filter().toLowerCase();
         if (!filter) {
-            return locations;
+            // item.marker.setVisible(true);
+// for restore the marker for each locations
+            for(var i = 0; i < this.locations().length; i++) {
+              // Cause the define and set of marker is after filter function here,
+              // need to check the marker properties for locations existed or not.
+              if(this.locations()[i].marker)
+              this.locations()[i].marker.setVisible(true);
+            }
+            return this.locations();
         } else {
-            return ko.utils.arrayFilter(locations, function(item) {
+            return ko.utils.arrayFilter(this.locations(), function(item) {
                 // return stringStartsWith(item.title.toLowerCase(), filter);
-                if(item.title.toLowerCase().indexOf(filter) > -1)
+                if(item.title.toLowerCase().indexOf(filter) > -1) {
+                  item.marker.setVisible(true);
                   return true;
+                } else {
+                    item.marker.setVisible(false);
+                    return false;
+                }
             });
         }
     },this);
 
+    for(var i = 0; i < this.locations().length; i++) {
+        var position = this.locations()[i].location;
+        var title = this.locations()[i].title;
+
+        var marker = new google.maps.Marker({
+          position: position,
+          map: map,
+          title: title,
+          animation: google.maps.Animation.DROP,
+          id: i
+        });
+        // markers.push(marker);
+        this.locations()[i].marker = marker;
+        this.locations()[i].marker.addListener('click', function(){
+          populateInfoWindow(this, largeInfowindow);
+        });
+    }
+
+    function populateInfoWindow(marker, infowindow) {
+      if (infowindow.marker != marker) {
+        infowindow.marker = marker;
+        infowindow.setContent('<div>' + marker.title + '</div>');
+        infowindow.open(map, marker);
+        infowindow.addListener('closeclick',function(){
+          infowindow.setMarker(null);
+        });
+      }
+    }
 }
 
 var stringStartsWith = function (string, startsWith) {
@@ -74,5 +124,3 @@ var stringStartsWith = function (string, startsWith) {
         return false;
     return string.substring(0, startsWith.length) === startsWith;
 }
-
-ko.applyBindings(new ViewModel());
