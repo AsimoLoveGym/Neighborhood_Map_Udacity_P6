@@ -7,16 +7,18 @@
 
 </head>
 <body>
-  <div>
-    <button>Search</button>
-    <input value="">
-  </div>
+
+  <h3> Filter display by name</h3>
   <div id="locationsList">
-    <h3>Locations List</h3>
-    <ul>
-      <li>Placeholder</li>
+    <p>valueUpdate Check: <strong data-bind="text: filter">todo</strong></p>
+
+    <p>Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" /></p>
+    <hr>
+    <ul data-bind="foreach: filteredItems">
+      <li data-bind="text: title"></li>
     </ul>
   </div>
+
   <div id="map">
 
   </div>
