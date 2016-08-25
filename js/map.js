@@ -16,11 +16,11 @@ function initMap(){
           center: {lat: 40.115634,lng: -88.236542},
           zoom: 13
         });
-  // console.log('hi');
-
-
 
   var largeInfowindow = new google.maps.InfoWindow();
+
+  // var locationsList = ViewModel().filteredItems();
+  // console.log(locationsList);
 
   for(var i = 0; i < locations.length; i++) {
     var position = locations[i].location;
@@ -51,7 +51,7 @@ function initMap(){
   }
 }
 
-// *******************View Model******************
+// ******************* View Model Below ******************
 
 var ViewModel = function(){
     this.filter= ko.observable("");
@@ -69,23 +69,7 @@ var ViewModel = function(){
         }
     },this);
 
-    console.log(this.filteredItems());
-
-    this.locationsList = ko.observableArray(this.filteredItems());
-    console.log(this.locationsList());
 }
-
-//ko.utils.arrayFilter - filter the items using the filter text
-// viewModel.filteredItems = ko.computed(function() {
-//     var filter = this.filter().toLowerCase();
-//     if (!filter) {
-//         return locations;
-//     } else {
-//         return ko.utils.arrayFilter(locations, function(item) {
-//             return stringStartsWith(item.title.toLowerCase(), filter);
-//         });
-//     }
-// }, viewModel);
 
 var stringStartsWith = function (string, startsWith) {
     string = string || "";
