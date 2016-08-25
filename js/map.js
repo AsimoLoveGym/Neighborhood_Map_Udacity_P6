@@ -2,14 +2,40 @@ var map;
 var largeInfowindow;
 var markers = [];
 
+var Point = function(data){
+  this.title = data.title;
+  this.location = data.location;
+}
+
 var locations = [
-      {title: 'Sakanaya Restaurant, Japanese restaurant', location: {lat: 40.110155, lng: -88.233122}},
-      {title: 'Le Peep, My favorite brunch restaurant', location: {lat: 40.087095, lng: -88.247949}},
-      {title: 'The Art Theater', location: {lat: 40.118571, lng: -88.244699}},
-      {title: 'The Red Lion', location: {lat: 40.109972, lng: -88.235615}},
-      {title: 'Crystal Lake Park Family Aquatic Center', location: {lat: 40.12518, lng: -88.209342}},
-      {title: 'Activities and Recreation Center', location: {lat: 40.10083, lng: -88.235555}},
-      {title: 'Lai Lai Wok, my favorite Chinese restaurant', location: {lat: 40.110455, lng: -88.233305}}
+      {
+        title: 'Sakanaya Restaurant, Japanese restaurant',
+        location: {lat: 40.110155, lng: -88.233122}
+      },
+      {
+        title: 'Le Peep, My favorite brunch restaurant',
+        location: {lat: 40.087095, lng: -88.247949}
+      },
+      {
+        title: 'The Art Theater',
+        location: {lat: 40.118571, lng: -88.244699}
+      },
+      {
+        title: 'The Red Lion',
+        location: {lat: 40.109972, lng: -88.235615}
+      },
+      {
+        title: 'Crystal Lake Park Family Aquatic Center',
+        location: {lat: 40.12518, lng: -88.209342}
+      },
+      {
+        title: 'Activities and Recreation Center',
+        location: {lat: 40.10083, lng: -88.235555}
+      },
+      {
+        title: 'Lai Lai Wok, my favorite Chinese restaurant',
+        location: {lat: 40.110455, lng: -88.233305}
+      }
     ];
 
 function initMap(){
@@ -58,9 +84,19 @@ function initMap(){
 // ******************* View Model Below ******************
 
 var ViewModel = function(){
+    var self = this;
+
     this.filter= ko.observable("");
 
-    this.locations = ko.observableArray(locations);
+    this.locations = ko.observableArray();
+    // console.log(this.locations());
+
+    locations.forEach(function(locationPoint){
+      // Need to use self to anchor to ViewModel, if "this" used instead
+      // of "self", "this" will refer to global var array
+      self.locations().push(new Point(locationPoint));
+    });
+    // console.log(this.locations());
 
     this.filteredItems = ko.computed(function() {
         var filter = this.filter().toLowerCase();
