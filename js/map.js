@@ -86,7 +86,7 @@ function initMap(){
 var ViewModel = function(){
     var self = this;
 
-    this.filter= ko.observable("");
+    this.lcfilter= ko.observable("");
 
     this.locations = ko.observableArray();
     // console.log(this.locations());
@@ -99,12 +99,12 @@ var ViewModel = function(){
     // console.log(this.locations());
 
     this.filteredItems = ko.computed(function() {
-        var filter = this.filter().toLowerCase();
-        if (!filter) {
+        var filterWords = this.lcfilter().toLowerCase();
+        if (!filterWords) {
             // item.marker.setVisible(true);
 // for restore the marker for each locations
             for(var i = 0; i < this.locations().length; i++) {
-              // Cause the define and set of marker is after filter function here,
+              // Cause the define and set of marker is after lcfilter function here,
               // need to check the marker properties for locations existed or not.
               if(this.locations()[i].marker)
               this.locations()[i].marker.setVisible(true);
@@ -112,8 +112,8 @@ var ViewModel = function(){
             return this.locations();
         } else {
             return ko.utils.arrayFilter(this.locations(), function(item) {
-                // return stringStartsWith(item.title.toLowerCase(), filter);
-                if(item.title.toLowerCase().indexOf(filter) > -1) {
+                // return stringStartsWith(item.title.toLowerCase(), filterWords);
+                if(item.title.toLowerCase().indexOf(filterWords) > -1) {
                   item.marker.setVisible(true);
                   return true;
                 } else {
