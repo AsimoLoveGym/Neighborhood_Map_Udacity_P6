@@ -10,31 +10,38 @@ var Point = function(data){
 var locations = [
       {
         title: 'Sakanaya Restaurant, Japanese restaurant',
-        location: {lat: 40.110155, lng: -88.233122}
+        location: {lat: 40.110155, lng: -88.233122},
+        yelpId: ''
       },
       {
         title: 'Le Peep, My favorite brunch restaurant',
-        location: {lat: 40.087095, lng: -88.247949}
+        location: {lat: 40.087095, lng: -88.247949},
+        yelpId: ''
       },
       {
         title: 'The Art Theater',
-        location: {lat: 40.118571, lng: -88.244699}
+        location: {lat: 40.118571, lng: -88.244699},
+        yelpId: ''
       },
       {
         title: 'The Red Lion',
-        location: {lat: 40.109972, lng: -88.235615}
+        location: {lat: 40.109972, lng: -88.235615},
+        yelpId: ''
       },
       {
         title: 'Crystal Lake Park Family Aquatic Center',
-        location: {lat: 40.12518, lng: -88.209342}
+        location: {lat: 40.12518, lng: -88.209342},
+        yelpId: ''
       },
       {
         title: 'Activities and Recreation Center',
-        location: {lat: 40.10083, lng: -88.235555}
+        location: {lat: 40.10083, lng: -88.235555},
+        yelpId: ''
       },
       {
         title: 'Lai Lai Wok, my favorite Chinese restaurant',
-        location: {lat: 40.110455, lng: -88.233305}
+        location: {lat: 40.110455, lng: -88.233305},
+        yelpId: ''
       }
     ];
 
