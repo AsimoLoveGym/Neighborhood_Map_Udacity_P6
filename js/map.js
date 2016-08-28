@@ -2,46 +2,50 @@ var map;
 var largeInfowindow;
 var markers = [];
 
+
+// console.log(yelpApi('sakanaya-restaurant-champaign'));
+
 var Point = function(data){
   this.title = data.title;
   this.location = data.location;
+  this.yelpId = data.yelpId;
 }
 
 var locations = [
       {
         title: 'Sakanaya Restaurant, Japanese restaurant',
         location: {lat: 40.110155, lng: -88.233122},
-        yelpId: ''
+        yelpId: 'sakanaya-restaurant-champaign'
       },
       {
         title: 'Le Peep, My favorite brunch restaurant',
         location: {lat: 40.087095, lng: -88.247949},
-        yelpId: ''
+        yelpId: 'le-peep-restaurant-champaign'
       },
       {
         title: 'The Art Theater',
         location: {lat: 40.118571, lng: -88.244699},
-        yelpId: ''
+        yelpId: 'the-art-theater-champaign'
       },
       {
         title: 'The Red Lion',
         location: {lat: 40.109972, lng: -88.235615},
-        yelpId: ''
+        yelpId: 'red-lion-champaign'
       },
       {
         title: 'Crystal Lake Park Family Aquatic Center',
         location: {lat: 40.12518, lng: -88.209342},
-        yelpId: ''
+        yelpId: 'crystal-lake-family-aquatic-center-urbana'
       },
       {
         title: 'Activities and Recreation Center',
         location: {lat: 40.10083, lng: -88.235555},
-        yelpId: ''
+        yelpId: 'activities-and-recreation-center-arc-champaign'
       },
       {
         title: 'Lai Lai Wok, my favorite Chinese restaurant',
         location: {lat: 40.110455, lng: -88.233305},
-        yelpId: ''
+        yelpId: 'lai-lai-wok-champaign'
       }
     ];
 
@@ -96,6 +100,7 @@ var ViewModel = function(){
     this.lcfilter= ko.observable("");
 
     this.locations = ko.observableArray();
+
     // console.log(this.locations());
 
     locations.forEach(function(locationPoint){
@@ -144,7 +149,12 @@ var ViewModel = function(){
         });
         // markers.push(marker);
         this.locations()[i].marker = marker;
+
+        this.locations()[i].marker.yelpId = this.locations()[i].yelpId;
+        // console.log(this.locations()[i].marker.yelpId);
         this.locations()[i].marker.addListener('click', function(){
+          // TODO: Call yelpAPI here, pass self.locations()[i].yelpId
+          yelpApi(this.yelpId);
           populateInfoWindow(this, largeInfowindow);
         });
     }
@@ -152,7 +162,7 @@ var ViewModel = function(){
     function populateInfoWindow(marker, infowindow) {
       if (infowindow.marker != marker) {
         infowindow.marker = marker;
-        infowindow.setContent('<div>' + marker.title + '</div>');
+        // infowindow.setContent('<div>' + marker.title + '</div>');
         infowindow.open(map, marker);
         infowindow.addListener('closeclick',function(){
           infowindow.setMarker(null);
