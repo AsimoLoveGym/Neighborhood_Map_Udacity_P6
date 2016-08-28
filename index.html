@@ -15,7 +15,7 @@
     <p>Filter: <input data-bind="value: lcfilter, valueUpdate: 'afterkeydown'" /></p>
     <hr>
     <ul data-bind="foreach: filteredItems">
-      <li data-bind="text: title"></li>
+      <li data-bind="text: title, click: $parent.setInfoWindow"></li>
     </ul>
   </div>
 
