@@ -52,7 +52,8 @@
           } else {
             openOrNot = 'OPEN';
           }
-          var content = '<h3>' + results.name + '</h3>' +
+          var content = '';
+          content = '<h3>' + results.name + '</h3>' +
             '<span><strong>Rating: </strong></span>' +
             '<img src=' + results.rating_img_url +'>' +
             '<span><strong>  ' + results.rating + '</strong></span>' +
@@ -72,9 +73,14 @@
           largeInfowindow.setContent(content);
           // console.log(results);
         },
-        fail: function(xhr, status, error) {
+        error: function(xhr, status, error) {
           // Do stuff on fail
-          console.log("An AJAX error occured: " + status + "\nError: " + error + "\nError detail: " + xhr.responseText);
+          content = "<img src='image/error.png'>" +
+          "<p>" + "An AJAX error occured: " + status + "</p>" +
+          "<p>" + "Error: " + error + "</p>" +
+          "<p>" + "Error detail: " + xhr.responseText + "</p>";
+          largeInfowindow.setContent(content);
+          // alert("An AJAX error occured: " + status + "\nError: " + error + "\nError detail: " + xhr.responseText);
         }
       };
 
