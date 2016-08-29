@@ -7,21 +7,22 @@
 
 </head>
 <body>
-
-  <h3> Filter display by name</h3>
-  <div id="locationsList">
-    <p>valueUpdate Check: <strong data-bind="text: lcfilter">todo</strong></p>
-
-    <p>Filter: <input data-bind="value: lcfilter, valueUpdate: 'afterkeydown'" /></p>
+  <div id="header">
+    <h3> Filter Display By Name</h3>
+    <p id="filter">Filter: <input data-bind="value: lcfilter, valueUpdate: 'afterkeydown'" /></p>
     <hr>
-    <ul data-bind="foreach: filteredItems">
-      <li data-bind="text: title, click: $parent.setInfoWindow"></li>
-    </ul>
+    <div id="nav">
+      <ol data-bind="foreach: filteredItems">
+        <li data-bind="text: title, click: $parent.setInfoWindow"></li>
+      </ol>
+    </div>
   </div>
-
-  <div id="map">
-
+  <div id="headerToggle">
+    <!-- <p class="icon toggle" onclick="navToggle()">&#9776;</p> -->
+    <p class="icon toggle" onclick="navToggle()"></p>
   </div>
+    <div id="map">
+    </div>
 
   <script src="js/lib/jquery-3.1.0.min.js"></script>
   <script src="js/lib/oauth/dist/oauth-signature.min.js"></script>

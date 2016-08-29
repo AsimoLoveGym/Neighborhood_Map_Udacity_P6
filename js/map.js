@@ -183,3 +183,13 @@ var stringStartsWith = function (string, startsWith) {
         return false;
     return string.substring(0, startsWith.length) === startsWith;
 }
+
+// toggle function
+function navToggle() {
+    var x = document.getElementsByTagName("BODY")[0];;
+    if (x.className === "") {
+        x.className += "header-visible";
+    } else {
+        x.className = "";
+    }
+}
