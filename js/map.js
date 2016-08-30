@@ -1,7 +1,16 @@
+/*******************************************************
+ * Copyright (C) {AsimoLoveGym} <{xiazhuangz@gmail.com}>
+ *
+ * This file is part of {Udacity FEND NanoDegree - Neighborhood Map Project}.
+ *
+ * {Udacity FEND NanoDegree - Neighborhood Map Project} can not be copied and/or distributed without the express
+ * permission of {name}
+ *******************************************************/
+
 var map;
 var largeInfowindow;
-var markers = [];
 
+// Constructor function for each location
 var Point = function(data){
   this.title = data.title;
   this.location = data.location;
@@ -58,6 +67,7 @@ function initMap(){
 
   largeInfowindow = new google.maps.InfoWindow();
 
+// To solve the scoping issue raised
   ko.applyBindings(new ViewModel());
 }
 
@@ -72,49 +82,51 @@ var ViewModel = function(){
 
     this.setInfoWindow = function(){
       // this should be the selected location
-      // Reset all animation
+
+      // Reset all animation to null
       for(var i = 0; i < self.locations().length; i++) {
         self.locations()[i].marker.setAnimation(null);
       }
-      yelpApi(this.marker.yelpId);
-      populateInfoWindow(this.marker, largeInfowindow);
 
-      // console.log(this);
+      yelpApi(this.marker.yelpId);
+      largeInfowindow.open(map, this.marker);
+      // populateInfoWindow(this.marker, largeInfowindow);
+
       this.marker.setAnimation(google.maps.Animation.BOUNCE);
       largeInfowindow.addListener('closeclick',function(){
          this.marker.setAnimation(null);
       });
     };
 
-    // console.log(this.locations());
-
+    // Push all the initial hard coded location into observableArray.
     locations.forEach(function(locationPoint){
-      // Need to use self to anchor to ViewModel, if "this" used instead
-      // of "self", "this" will refer to global var array
       self.locations().push(new Point(locationPoint));
     });
-    // console.log(this.locations());
 
+    // Filter function for filtering list view
     this.filteredItems = ko.computed(function() {
         var filterWords = this.lcfilter().toLowerCase();
         if (!filterWords) {
-            // item.marker.setVisible(true);
-// for restore the marker for each locations
+          // Reset the marker for each location
             for(var i = 0; i < this.locations().length; i++) {
               // Cause the define and set of marker is after lcfilter function here,
               // need to check the marker properties for locations existed or not.
               if(this.locations()[i].marker)
               this.locations()[i].marker.setVisible(true);
-              // this.locations()[i].marker.setAnimation(null);
             }
             return this.locations();
         } else {
             return ko.utils.arrayFilter(this.locations(), function(item) {
+                // two mechanism for filter funtion can be used,
+                // filter mechanism 1: stringStartsWith method as its name indicated.
                 // return stringStartsWith(item.title.toLowerCase(), filterWords);
+
+                // filter mechanism 2: as long as the location's name includes the input string, show it
                 if(item.title.toLowerCase().indexOf(filterWords) > -1) {
+                  // for filtered locations, mark them on the map and animated the marker once.
                   item.marker.setVisible(true);
                   item.marker.setAnimation(google.maps.Animation.BOUNCE);
-                  // setTimeout({ item.marker.setAnimation(null); }, 500);
+                  // 750 ms is the time needed for the marker to finish one bounce.
                   setTimeout(function(){item.marker.setAnimation(null);},750);
                   return true;
                 } else {
@@ -126,9 +138,9 @@ var ViewModel = function(){
     },this);
 
     for(var i = 0; i < this.locations().length; i++) {
+      // initialize the properties for each location
         var position = this.locations()[i].location;
         var title = this.locations()[i].title;
-
         var marker = new google.maps.Marker({
           position: position,
           map: map,
@@ -136,12 +148,10 @@ var ViewModel = function(){
           animation: google.maps.Animation.DROP,
           id: i
         });
-        // markers.push(marker);
         this.locations()[i].marker = marker;
-
         this.locations()[i].marker.yelpId = this.locations()[i].yelpId;
-        // console.log(this.locations()[i].marker.yelpId);
         this.locations()[i].marker.addListener('click', function(){
+          // disguish the self, self is only used for viewmodel.
           var that = this;
 
           for(var i = 0; i < self.locations().length; i++) {
@@ -149,25 +159,26 @@ var ViewModel = function(){
           }
 
           yelpApi(this.yelpId);
-          populateInfoWindow(this, largeInfowindow);
+          largeInfowindow.open(map, this);
+          // populateInfoWindow(this, largeInfowindow);
+
           this.setAnimation(google.maps.Animation.BOUNCE);
           largeInfowindow.addListener('closeclick',function(){
             that.setAnimation(null);
           });
+
         });
     }
 
-    function populateInfoWindow(marker, infowindow) {
-      if (infowindow.marker != marker) {
-        infowindow.marker = marker;
-        infowindow.open(map, marker);
-        // infowindow.addListener('closeclick',function(){
-        //   infowindow.setMarker(null);
-        // });
-      }
-    }
+    // function populateInfoWindow(marker, infowindow) {
+    //   if (infowindow.marker != marker) {
+    //     infowindow.marker = marker;
+    //     infowindow.open(map, marker);
+    //   }
+    // }
 }
 
+// only be used for filter mechanism 1
 var stringStartsWith = function (string, startsWith) {
     string = string || "";
     if (startsWith.length > string.length)
@@ -175,7 +186,7 @@ var stringStartsWith = function (string, startsWith) {
     return string.substring(0, startsWith.length) === startsWith;
 }
 
-// toggle function
+// Navigation toggle function for mobile
 function navToggle() {
     var x = document.getElementsByTagName("BODY")[0];;
     if (x.className === "") {

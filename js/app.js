@@ -1,3 +1,15 @@
+/*******************************************************
+ * Copyright (C) {AsimoLoveGym} <{xiazhuangz@gmail.com}>
+ *
+ * This file is part of {Udacity FEND NanoDegree - Neighborhood Map Project}.
+ *
+ * {Udacity FEND NanoDegree - Neighborhood Map Project} can not be copied and/or distributed without the express
+ * permission of {name}
+ *******************************************************/
+
+
+
+
 // Credit to Udacity Coach MarkN https://discussions.udacity.com/t/how-to-make-ajax-request-to-yelp-api/13699/4
 
 /**
@@ -5,19 +17,15 @@
  * @return {string}
  */
 
-// TODO: difference here. Created yelpCall function here, and pass location data into the function
+
  function yelpApi(selectedYelpId){
   function nonce_generate() {
     return (Math.floor(Math.random() * 1e12).toString());
   }
 
-  // TODO: difference in the yelp_url
-  // var yelp_url = YELP_BASE_URL + 'business/' + self.selected_place().Yelp.business_id;
-    // var yelp_url = 'http://api.yelp.com/v2/business/sakanaya-restaurant-champaign';
     var YELP_BASE_URL = 'http://api.yelp.com/v2/';
     var yelp_url = YELP_BASE_URL + 'business/'+ selectedYelpId;
 
-  // TODO: difference here。
   // to define YELP_KEY, YELP_TOKEN
       var YELP_KEY = 'jT35AXIRI8LXdlEnJOG_FQ';
       var YELP_TOKEN = '72nsiEPyM4q-TMXsFD9qiDCktKtyc0Io';
@@ -32,7 +40,6 @@
         oauth_signature_method: 'HMAC-SHA1',
         oauth_version : '1.0',
         callback: 'cb'              // This is crucial to include for jsonp implementation in AJAX or else the oauth-signature will be wrong.
-        // TODO: difference here, cll: for what?
       };
 
       var encodedSignature = oauthSignature.generate('GET',yelp_url, parameters, YELP_KEY_SECRET, YELP_TOKEN_SECRET);
@@ -43,7 +50,6 @@
         data: parameters,
         cache: true,                // This is crucial to include as well to prevent jQuery from adding on a cache-buster parameter "_=23489489749837", invalidating our oauth-signature
         dataType: 'jsonp',
-        // TODO: difference here. jsonpCallback: 'cb'
         success: function(results) {
           // Do stuff with results
           var content = '';
@@ -64,7 +70,6 @@
           }
 
           largeInfowindow.setContent(content);
-          // console.log(results);
         },
         error: function(xhr, status, error) {
           // Do stuff on fail
@@ -73,7 +78,6 @@
           "<p>" + "Error: " + error + "</p>" +
           "<p>" + "Error detail: " + xhr.responseText + "</p>";
           largeInfowindow.setContent(content);
-          // alert("An AJAX error occured: " + status + "\nError: " + error + "\nError detail: " + xhr.responseText);
         }
       };
 
