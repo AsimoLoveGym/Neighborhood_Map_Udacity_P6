@@ -105,6 +105,10 @@ var ViewModel = function(){
       // this should be the selected marker
       yelpApi(this.marker.yelpId);
       populateInfoWindow(this.marker, largeInfowindow);
+      this.marker.setAnimation(google.maps.Animation.BOUNCE);
+      largeInfowindow.addListener('closeclick',function(){
+         this.marker.setAnimation(null);
+      });
     };
 
     // console.log(this.locations());
@@ -126,6 +130,7 @@ var ViewModel = function(){
               // need to check the marker properties for locations existed or not.
               if(this.locations()[i].marker)
               this.locations()[i].marker.setVisible(true);
+              // this.locations()[i].marker.setAnimation(null);
             }
             return this.locations();
         } else {
@@ -133,6 +138,7 @@ var ViewModel = function(){
                 // return stringStartsWith(item.title.toLowerCase(), filterWords);
                 if(item.title.toLowerCase().indexOf(filterWords) > -1) {
                   item.marker.setVisible(true);
+                  item.marker.setAnimation(google.maps.Animation.BOUNCE);
                   return true;
                 } else {
                     item.marker.setVisible(false);
@@ -162,6 +168,10 @@ var ViewModel = function(){
           // TODO: Call yelpAPI here, pass self.locations()[i].yelpId
           yelpApi(this.yelpId);
           populateInfoWindow(this, largeInfowindow);
+          this.setAnimation(google.maps.Animation.BOUNCE);
+          largeInfowindow.addListener('closeclick',function(){
+             this.setAnimation(null);
+          });
         });
     }
 

@@ -46,12 +46,6 @@
         // TODO: difference here. jsonpCallback: 'cb'
         success: function(results) {
           // Do stuff with results
-          var openOrNot;
-          if (results.is_closed){
-            openOrNot = 'CLOSED';
-          } else {
-            openOrNot = 'OPEN';
-          }
           var content = '';
           content = '<h3>' + results.name + '</h3>' +
             '<span><strong>Rating: </strong></span>' +
@@ -59,7 +53,6 @@
             '<span><strong>  ' + results.rating + '</strong></span>' +
             '<p><strong>Reviews: </strong>' +
             '<span>  ' + results.review_count + ' </span></p>' +
-            '<p><strong>' + openOrNot + '</strong> now</p>' +
             '<p>' + results.categories[0][0] + '</p>';
           if(results.categories[1]){
             content += '<p>' + results.categories[1][0] + '</p>';
@@ -71,7 +64,7 @@
           }
 
           largeInfowindow.setContent(content);
-          // console.log(results);
+          console.log(results);
         },
         error: function(xhr, status, error) {
           // Do stuff on fail
