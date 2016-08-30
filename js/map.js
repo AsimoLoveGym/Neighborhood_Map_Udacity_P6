@@ -61,6 +61,41 @@ var locations = [{
     },
     yelpId: 'activities-and-recreation-center-arc-champaign'
 }, {
+    title: 'Activities and Recreation Center',
+    location: {
+        lat: 40.10083,
+        lng: -88.235555
+    },
+    yelpId: 'activities-and-recreation-center-arc-champaign'
+}, {
+    title: 'Olive Garden Italian Restaurant',
+    location: {
+        lat: 40.13577,
+        lng: -88.241923
+    },
+    yelpId: 'olive-garden-italian-restaurant-champaign-2'
+}, {
+    title: 'Biaggi’s Ristorante Italiano, Italian Restaurant',
+    location: {
+        lat: 40.0984103,
+        lng: -88.2445414
+    },
+    yelpId: 'biaggis-ristorante-italiano-champaign-2'
+}, {
+    title: 'Chipotle Mexican Grill, Mexican Restaurant',
+    location: {
+        lat: 40.110231,
+        lng: -88.237045
+    },
+    yelpId: 'chipotle-mexican-grill-champaign'
+}, {
+    title: 'Masijta Grill, Korean Restaurant',
+    location: {
+        lat: 40.1149848,
+        lng: -88.2089975
+    },
+    yelpId: 'masijta-grill-urbana'
+}, {
     title: 'Lai Lai Wok, my favorite Chinese restaurant',
     location: {
         lat: 40.110455,
@@ -105,6 +140,11 @@ var ViewModel = function() {
         for (var i = 0; i < self.locations().length; i++) {
             self.locations()[i].marker.setAnimation(null);
         }
+        // Reset infowindow content to be null, AJAX API request always need some time
+        // otherwise, it will show previous marker's info for a short time
+        // that would confuse mobile user (slower api request speed)
+        largeInfowindow.setContent('');
+        largeInfowindow.open(map, marker);
 
         yelpApi(yelpId);
         largeInfowindow.open(map, marker);

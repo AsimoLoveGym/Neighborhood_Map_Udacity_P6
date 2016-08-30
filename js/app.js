@@ -46,6 +46,7 @@ function yelpApi(selectedYelpId) {
         success: function(results) {
             // Do stuff with results
             var content = '';
+
             content = '<h3>' + results.name + '</h3>' +
                 '<span><strong>Rating: </strong></span>' +
                 '<img src=' + results.rating_img_url + '>' +
@@ -62,6 +63,8 @@ function yelpApi(selectedYelpId) {
                 content += '<img src=' + results.image_url + '>';
             }
 
+            content += "<img class='yelpLogo' src='image/yelp-logo.png'>";
+
             largeInfowindow.setContent(content);
         },
         error: function(xhr, status, error) {
@@ -70,6 +73,7 @@ function yelpApi(selectedYelpId) {
                 "<p>" + "An AJAX error occured: " + status + "</p>" +
                 "<p>" + "Error: " + error + "</p>" +
                 "<p>" + "Error detail: " + xhr.responseText + "</p>";
+            content += "<img class='yelpLogo' src='image/yelp-logo.png'>";
             largeInfowindow.setContent(content);
         }
     };
