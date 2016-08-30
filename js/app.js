@@ -64,7 +64,7 @@
           }
 
           largeInfowindow.setContent(content);
-          console.log(results);
+          // console.log(results);
         },
         error: function(xhr, status, error) {
           // Do stuff on fail

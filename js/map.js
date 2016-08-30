@@ -2,14 +2,13 @@ var map;
 var largeInfowindow;
 var markers = [];
 
-
-// console.log(yelpApi('sakanaya-restaurant-champaign'));
-
 var Point = function(data){
   this.title = data.title;
   this.location = data.location;
   this.yelpId = data.yelpId;
 }
+
+// ******************* Model Below ******************
 
 var locations = [
       {
@@ -49,6 +48,8 @@ var locations = [
       }
     ];
 
+// ******************* Map Initiation Below ******************
+
 function initMap(){
   map = new google.maps.Map(document.getElementById('map'),{
           center: {lat: 40.115634,lng: -88.236542},
@@ -56,38 +57,6 @@ function initMap(){
         });
 
   largeInfowindow = new google.maps.InfoWindow();
-// ******************* Relocation Below ******************
-//   var largeInfowindow = new google.maps.InfoWindow();
-//
-// for(var i = 0; i < locations.length; i++) {
-//     var position = locations[i].location;
-//     var title = locations[i].title;
-//
-//     var marker = new google.maps.Marker({
-//       position: position,
-//       map: map,
-//       title: title,
-//       animation: google.maps.Animation.DROP,
-//       id: i
-//     });
-//     markers.push(marker);
-//     marker.addListener('click', function(){
-//       populateInfoWindow(this, largeInfowindow);
-//     });
-//   }
-//
-//   function populateInfoWindow(marker, infowindow) {
-//     if (infowindow.marker != marker) {
-//       infowindow.marker = marker;
-//       infowindow.setContent('<div>' + marker.title + '</div>');
-//       infowindow.open(map, marker);
-//       infowindow.addListener('closeclick',function(){
-//         infowindow.setMarker(null);
-//       });
-//     }
-//   }
-
-// ******************* Relocation Above ******************
 
   ko.applyBindings(new ViewModel());
 }
@@ -102,9 +71,15 @@ var ViewModel = function(){
     this.locations = ko.observableArray();
 
     this.setInfoWindow = function(){
-      // this should be the selected marker
+      // this should be the selected location
+      // Reset all animation
+      for(var i = 0; i < self.locations().length; i++) {
+        self.locations()[i].marker.setAnimation(null);
+      }
       yelpApi(this.marker.yelpId);
       populateInfoWindow(this.marker, largeInfowindow);
+
+      // console.log(this);
       this.marker.setAnimation(google.maps.Animation.BOUNCE);
       largeInfowindow.addListener('closeclick',function(){
          this.marker.setAnimation(null);
@@ -139,6 +114,8 @@ var ViewModel = function(){
                 if(item.title.toLowerCase().indexOf(filterWords) > -1) {
                   item.marker.setVisible(true);
                   item.marker.setAnimation(google.maps.Animation.BOUNCE);
+                  // setTimeout({ item.marker.setAnimation(null); }, 500);
+                  setTimeout(function(){item.marker.setAnimation(null);},750);
                   return true;
                 } else {
                     item.marker.setVisible(false);
@@ -165,12 +142,17 @@ var ViewModel = function(){
         this.locations()[i].marker.yelpId = this.locations()[i].yelpId;
         // console.log(this.locations()[i].marker.yelpId);
         this.locations()[i].marker.addListener('click', function(){
-          // TODO: Call yelpAPI here, pass self.locations()[i].yelpId
+          var that = this;
+
+          for(var i = 0; i < self.locations().length; i++) {
+            self.locations()[i].marker.setAnimation(null);
+          }
+
           yelpApi(this.yelpId);
           populateInfoWindow(this, largeInfowindow);
           this.setAnimation(google.maps.Animation.BOUNCE);
           largeInfowindow.addListener('closeclick',function(){
-             this.setAnimation(null);
+            that.setAnimation(null);
           });
         });
     }
@@ -178,7 +160,6 @@ var ViewModel = function(){
     function populateInfoWindow(marker, infowindow) {
       if (infowindow.marker != marker) {
         infowindow.marker = marker;
-        // infowindow.setContent('<div>' + marker.title + '</div>');
         infowindow.open(map, marker);
         // infowindow.addListener('closeclick',function(){
         //   infowindow.setMarker(null);
