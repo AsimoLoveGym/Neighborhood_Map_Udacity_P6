@@ -47,12 +47,12 @@ var locations = [{
     },
     yelpId: 'red-lion-champaign'
 }, {
-    title: 'Crystal Lake Park Family Aquatic Center',
+    title: 'Maize-mexican-grill-champaign, Mexican Restaurant',
     location: {
-        lat: 40.12518,
-        lng: -88.209342
+        lat: 40.110231,
+        lng: -88.237045
     },
-    yelpId: 'crystal-lake-family-aquatic-center-urbana'
+    yelpId: 'maize-mexican-grill-champaign'
 }, {
     title: 'Activities and Recreation Center',
     location: {
@@ -233,4 +233,10 @@ function navToggle() {
     } else {
         x.className = "";
     }
+}
+
+
+function googleError(){
+  // alert("Error");
+  document.getElementById('googleError').style.display = "block";
 }

@@ -12,6 +12,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Neighborhood Map</title>
   <link rel="stylesheet" href="css/main.css">
 
@@ -19,7 +20,7 @@
 <body>
   <div id="header">
     <h3> Filter Display By Name</h3>
-    <p id="filter">Filter: <input data-bind="value: lcfilter, valueUpdate: 'afterkeydown'" /></p>
+    <p id="filter">Filter: <input data-bind="textInput: lcfilter" /></p>
     <hr>
     <div id="nav">
       <ol data-bind="foreach: filteredItems">
@@ -30,12 +31,15 @@
 
   <!-- Navigation Toggle Icon -->
   <div id="headerToggle">
-    <p class="icon toggle" onclick="navToggle()"></p>
+    <p class="icon toggle" data-bind="click: navToggle()"></p>
   </div>
 
   <!-- Canvas part for map API -->
   <div id="map">
-
+    <div id="googleError">
+      <img src='image/error.png'>
+      <p>Error occured for Google Map API request :( </p>
+    </div>
   </div>
 
   <script src="js/lib/jquery-3.1.0.min.js"></script>
@@ -43,7 +47,7 @@
   <script src="js/app.js"></script>
   <script src="js/lib/knockout-3.2.0.js"></script>
   <script src="js/map.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=AIzaSyBIfK3cRT0IIjE_8TZ7qGL07DSNTmfZmAw&v=3&callback=initMap">
+  <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry,drawing&key=AIzaSyBIfK3cRT0IIjE_8TZ7qGL07DSNTmfZmAw&v=3&callback=initMap" onerror="googleError()">
   </script>
 </body>
 </html>

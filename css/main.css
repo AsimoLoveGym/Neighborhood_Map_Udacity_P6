@@ -7,6 +7,14 @@ html, body {
 	font: inherit;
 }
 
+body #map #googleError {
+  display: none;
+  position: absolute;
+  top: 10%;
+  left: 25%;
+  text-align: center;
+}
+
 #headerToggle {
   display: none;
   font-size: 2em;
