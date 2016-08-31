@@ -4,6 +4,10 @@ This neighborhood map app is built with Google maps API, Yelp API, and KnockoutJ
 
 Check the **[live demo here](https://asimolovegym.github.io/Neighborhood_Map_Udacity_P6/)**.
 
+For local users:
+1. Download files, or clone repository [repository url](https://github.com/AsimoLoveGym/Neighborhood_Map_Udacity_P6).
+2. Open index.html with your browser.
+
 ## Reference:
 
 Credit to Bob Ingram for filtering location list
