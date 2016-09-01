@@ -16,7 +16,7 @@ function yelpApi(selectedYelpId) {
         return (Math.floor(Math.random() * 1e12).toString());
     }
 
-    var YELP_BASE_URL = 'http://api.yelp.com/v2/';
+    var YELP_BASE_URL = 'https://api.yelp.com/v2/';
     var yelp_url = YELP_BASE_URL + 'business/' + selectedYelpId;
 
     // to define YELP_KEY, YELP_TOKEN
