@@ -183,10 +183,10 @@ var ViewModel = function() {
                     // for filtered locations, mark them on the map and animated the marker once.
                     item.marker.setVisible(true);
                     item.marker.setAnimation(google.maps.Animation.BOUNCE);
-                    // 750 ms is the time needed for the marker to finish one bounce.
+                    // 700 ms is the time needed for the marker to finish one bounce.
                     setTimeout(function() {
                         item.marker.setAnimation(null);
-                    }, 750);
+                    }, 700);
                     return true;
                 } else {
                     item.marker.setVisible(false);
@@ -218,12 +218,12 @@ var ViewModel = function() {
 };
 
 // only be used for filter mechanism 1
-var stringStartsWith = function(string, startsWith) {
-    string = string || "";
-    if (startsWith.length > string.length)
-        return false;
-    return string.substring(0, startsWith.length) === startsWith;
-};
+// var stringStartsWith = function(string, startsWith) {
+//     string = string || "";
+//     if (startsWith.length > string.length)
+//         return false;
+//     return string.substring(0, startsWith.length) === startsWith;
+// };
 
 // Navigation toggle function for mobile
 function navToggle() {
